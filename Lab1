@@ -1,0 +1,24 @@
+package com.satyam.Lab16;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+public class Lab16A {
+	public static void main(String[] args) {
+		try {
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session se = sf.openSession();
+			Transaction tx = se.beginTransaction();
+			
+			Customer cust = new Customer("saty","sat@cc.com",333,"Noida");
+			se.save(cust);
+			
+			tx.commit();
+			se.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+}
