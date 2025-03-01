@@ -1,0 +1,40 @@
+package com.satyam.Lab16;
+
+import java.util.Properties;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.Environment;
+import org.hibernate.service.ServiceRegistry;
+public class HibernateUtil {
+		//from hibernate_Util we get sessionFactory
+			static SessionFactory sf = null;
+			static {
+				try {
+					Configuration cfg = new Configuration();
+					Properties myprops = new  Properties();// is used to store the elements in key and value pair	
+					myprops.put(Environment.DRIVER,"com.mysql.cj.jdbc.Driver");// it is a driver class
+					myprops.put(Environment.URL,"jdbc:mysql://localhost:3306/amdb");
+					myprops.put(Environment.USER,"root");
+					myprops.put(Environment.PASS,"*******");
+					myprops.put(Environment.DIALECT,"org.hibernate.dialect.MySQL8Dialect");
+					myprops.put(Environment.SHOW_SQL, "true");   
+					myprops.put(Environment.POOL_SIZE, "99");
+					myprops.put(Environment.CURRENT_SESSION_CONTEXT_CLASS,"thread");
+					myprops.put(Environment.HBM2DDL_AUTO,"update");
+					cfg.setProperties(myprops);
+					cfg.addAnnotatedClass(Customer.class); 
+					StandardServiceRegistryBuilder ssrbuilder = new StandardServiceRegistryBuilder();
+					ServiceRegistry serviceRegistry=(ServiceRegistry)ssrbuilder.applySettings(cfg.getProperties()).build();
+					sf=cfg.buildSessionFactory(serviceRegistry);			 
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+	public static SessionFactory getSessionFactory() {
+		return sf;
+	}
+}
+
+
+
