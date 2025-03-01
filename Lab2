@@ -1,0 +1,26 @@
+package com.satyam.Lab16;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+public class Lab16B {
+	public static void main(String[] args) {
+		try {
+			SessionFactory sf = HibernateUtil.getSessionFactory();
+			Session se = sf.openSession();
+			Transaction tx = se.beginTransaction();
+			
+			Customer cust = se.load(Customer.class, 1);
+			System.out.println(cust);
+			cust.setEmail("sa@cc.com");
+			se.update(cust);
+			
+			tx.commit();
+			se.close();
+		} catch ( Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+}
